@@ -1,183 +1,145 @@
-<!-- 
-    Name: [REDACTED - THIS REPO IS PUBLIC]
-    Course Code: 4561
-    Course Number: IT 9a/L
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
 
-    Description: 1st Laravel Activity - Bootstrap
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <style>
+        .hero {
+            padding: 6rem 0 4rem;
+        }
 
-    Date Created: April 11, 2026
-    GitHub: https://github.com/ToolDroidYT
--->
+        .feature-icon {
+            width: 2.75rem;
+            height: 2.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: .75rem;
+            font-weight: 700;
+            background: rgba(13, 110, 253, .15);
+            color: #9ec5fe;
+        }
+    </style>
+</head>
 
-<x-layout title="Profile Manager">
-    <div class="row g-4 mt-2">
-        <div class="col-md-12 text-end mb-0 mb-md-2">
-            <form action="{{ route('profiles.clear') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('Are you sure you want to delete all profiles?')">
-                    <i class="bi bi-trash-fill me-1"></i>Delete All Profiles
+<body class="bg-body-tertiary">
+    <header class="border-bottom bg-body">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand fw-semibold" href="{{ route('index') }}">Profile Generator</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-            </form>
-        </div>
-
-        <div class="col-md-5 col-lg-4 order-md-2">
-            <div class="card shadow-sm border rounded-3 p-0 overflow-hidden sticky-md-top"
-                style="top: 1.5rem; z-index: 10;">
-                <div class="card-header bg-primary text-white text-center py-3">
-                    <h5 class="mb-0 fw-bold"><i
-                            class="bi bi-person-plus-fill me-2"></i>{{ isset($editProfile) ? 'Edit Profile' : 'Add Profile' }}
-                    </h5>
-                </div>
-                <div class="card-body p-3 p-md-4">
-                    @if ($errors->any())
-                        <div class="alert alert-danger p-2 mb-3 small">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger p-2 mb-3 small">{{ session('error') }}</div>
-                    @endif
-                    @if (session('success'))
-                        <div class="alert alert-success p-2 mb-3 small">{{ session('success') }}</div>
-                    @endif
-
-                    <form action="{{ isset($editProfile) ? route('profile.update', $editId) : route('profile.store') }}"
-                        method="POST" enctype="multipart/form-data">
-                        @csrf
-
-                        <h6 class="mb-2 text-secondary border-bottom pb-1">Personal Info</h6>
-                        <div class="row g-2">
-                            <div class="col-12">
-                                <div class="form-floating text-body">
-                                    <input name="fullname" type="text" class="form-control" id="fullNameField"
-                                        placeholder="Full name"
-                                        value="{{ old('fullname', $editProfile['fullname'] ?? '') }}" required>
-                                    <label for="fullNameField">Full Name</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-floating text-body">
-                                    <input name="birthday" type="date" class="form-control" id="ageField"
-                                        placeholder="Birthday"
-                                        value="{{ old('birthday', $editProfile['birthday'] ?? '') }}" required>
-                                    <label for="ageField">Birthday</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-floating text-body">
-                                    <input name="course" type="text" class="form-control" id="courseField"
-                                        placeholder="Program/Course"
-                                        value="{{ old('course', $editProfile['course'] ?? '') }}" required>
-                                    <label for="courseField">Course</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating text-body">
-                                    <input name="email" type="email" class="form-control" id="emailField"
-                                        placeholder="Email" value="{{ old('email', $editProfile['email'] ?? '') }}"
-                                        required>
-                                    <label for="emailField">Email address</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h6 class="mt-3 mb-2 text-secondary border-bottom pb-1">Additional Details</h6>
-                        <div class="row g-2 mb-2">
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small">Gender</label>
-                                <div class="p-2 border rounded text-body bg-body-tertiary">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderMale"
-                                            value="male" required {{ old('gender', $editProfile['gender'] ?? '') == 'male' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="genderMale">Male</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="genderFemale"
-                                            value="female" {{ old('gender', $editProfile['gender'] ?? '') == 'female' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="genderFemale">Female</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="form-label fw-semibold small">Hobbies</label>
-                                @php $selectedHobbies = old('hobbies', $editProfile['hobbies'] ?? []); @endphp
-                                <div class="p-2 border rounded text-body bg-body-tertiary d-flex flex-wrap gap-2 small">
-                                    @foreach(['programming', 'music', 'basketball', 'singing', 'dancing', 'social media', 'sleeping', 'gaming', 'reading', 'traveling', 'cooking', 'drawing'] as $hobby)
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="hobbies[]"
-                                                value="{{ $hobby }}" id="hobby_{{ $loop->index }}" {{ in_array($hobby, $selectedHobbies) ? 'checked' : '' }}>
-                                            <label class="form-check-label"
-                                                for="hobby_{{ $loop->index }}">{{ ucfirst($hobby) }}</label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-2">
-                            <label for="biographyField" class="form-label fw-semibold small">Biography</label>
-                            <textarea class="form-control" style="height: 80px;" placeholder="Short biography..."
-                                id="biographyField" name="biography"
-                                required>{{ old('biography', $editProfile['biography'] ?? '') }}</textarea>
-                        </div>
-
-                        <div class="mb-2">
-                            <label class="form-label fw-semibold small">Profile Picture</label>
-                            <input class="form-control form-control-sm" type="file" accept="image/*"
-                                name="profilepicture" {{ isset($editProfile) ? '' : 'required' }}>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold small">Banner Picture <sub>(Optional)</sub></label>
-                            <input class="form-control form-control-sm" type="file" accept="image/*"
-                                name="bannerpicture">
-                        </div>
-
-                        <div class="d-flex justify-content-end w-100 gap-2">
-                            @if(isset($editProfile))
-                                <a href="{{ route('index') }}" class="btn btn-sm btn-outline-secondary px-3"><i
-                                        class="bi bi-x me-1"></i>Cancel</a>
-                            @else
-                                <button type="reset" class="btn btn-sm btn-outline-danger px-3"><i
-                                        class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
-                            @endif
-                            <button type="submit" class="btn btn-sm btn-primary px-3 shadow-sm"><i
-                                    class="bi bi-check2-circle me-1"></i>{{ isset($editProfile) ? 'Update' : 'Generate' }}</button>
-                        </div>
-                    </form>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="{{ route('index') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/profile') }}">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Register</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
+    </header>
 
-        <div class="col-md-7 col-lg-8 order-md-1 mt-5 mt-md-0">
-            <h4 class="mb-3">Saved Profiles</h4>
-            <div class="row row-cols-1 row-cols-lg-2 g-3">
-                @forelse($profiles as $id => $profile)
+    <main>
+        <section class="hero text-center">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">Create and manage profiles with ease.</h1>
+                <p class="lead text-secondary mb-4">A simple and organized way to build beautiful personal profile pages.
+                </p>
+                <a href="{{ url('/profile') }}" class="btn btn-primary btn-lg px-4">Get Started</a>
+            </div>
+        </section>
+
+        <section class="pb-5">
+            <div class="container">
+                <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
                     <div class="col">
-                        <div class="card h-100 shadow-sm">
-                            <x-profile-card :profile="$profile" :id="$id" />
+                        <article class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <h2 class="h5">Quick Setup</h2>
+                                <p class="text-secondary mb-3">Start creating your profile in minutes with a clean and guided flow.</p>
+                                <a href="#" class="btn btn-sm btn-outline-light">Learn More</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col">
+                        <article class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <h2 class="h5">Responsive Design</h2>
+                                <p class="text-secondary mb-3">Enjoy a seamless experience across desktop, tablet, and mobile devices.</p>
+                                <a href="#" class="btn btn-sm btn-outline-light">Learn More</a>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col">
+                        <article class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <h2 class="h5">Simple Management</h2>
+                                <p class="text-secondary mb-3">Update details anytime with an interface focused on clarity and speed.</p>
+                                <a href="#" class="btn btn-sm btn-outline-light">Learn More</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pb-5">
+            <div class="container">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="row g-4 align-items-center">
+                            <div class="col-lg-6">
+                                <h2 class="h3 mb-3">Built for students and professionals</h2>
+                                <p class="text-secondary mb-0">Whether you are showcasing your academic profile or building a polished online identity, this app helps you stay organized with a modern, distraction-free experience.</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="d-flex flex-column gap-3">
+                                    <div class="d-flex gap-3 align-items-start">
+                                        <span class="feature-icon">1</span>
+                                        <div>
+                                            <h3 class="h6 mb-1">Clean Interface</h3>
+                                            <p class="text-secondary mb-0">Minimal layout focused on what matters most.</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-start">
+                                        <span class="feature-icon">2</span>
+                                        <div>
+                                            <h3 class="h6 mb-1">Easy Editing</h3>
+                                            <p class="text-secondary mb-0">Make updates quickly without unnecessary steps.</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-start">
+                                        <span class="feature-icon">3</span>
+                                        <div>
+                                            <h3 class="h6 mb-1">Modern Look</h3>
+                                            <p class="text-secondary mb-0">Professional presentation with Bootstrap 5 styling.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                @empty
-                    <div class="col-12 py-5 text-center text-muted">
-                        <i class="bi bi-person-x display-1 d-block mb-3"></i>
-                        <p class="fs-5">No profiles found. Create one to get started!</p>
-                    </div>
-                @endforelse
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <div class="col-12 text-center mt-4 mb-2">
-        <small>Repurposed profile viewer from <a
-                href="https://github.com/ToolDroidYT/IT-9a-Personal-Profile-Generator/">4th Lab Activity</a></small>
-        <br>
-        <small class="text-muted">&copy; {{ date('Y') }} ToolDroid. All rights reserved.</small>
-    </div>
-</x-layout>
+    <footer class="border-top py-4 text-center text-secondary bg-body">
+        <div class="container">
+            <small>&copy; {{ date('Y') }} Profile Generator. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
