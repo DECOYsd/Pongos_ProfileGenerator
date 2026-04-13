@@ -1,145 +1,90 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<x-layout>
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Personal Profile Generator</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Generator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-    <style>
-        .hero {
-            padding: 6rem 0 4rem;
-        }
+        <form action="/" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
 
-        .feature-icon {
-            width: 2.75rem;
-            height: 2.75rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: .75rem;
-            font-weight: 700;
-            background: rgba(13, 110, 253, .15);
-            color: #9ec5fe;
-        }
-    </style>
-</head>
+            <div>
+                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                <input type="number" id="age" name="age" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
 
-<body class="bg-body-tertiary">
-    <header class="border-bottom bg-body">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand fw-semibold" href="{{ route('index') }}">Profile Generator</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" href="{{ route('index') }}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/profile') }}">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Register</a></li>
-                    </ul>
+            <div>
+                <label for="program" class="block text-sm font-medium text-gray-700">Program</label>
+                <input type="text" id="program" name="program" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Gender</label>
+                <div class="mt-2">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="gender" value="male" required class="form-radio">
+                        <span class="ml-2">Male</span>
+                    </label>
+                    <label class="inline-flex items-center ml-4">
+                        <input type="radio" name="gender" value="female" class="form-radio">
+                        <span class="ml-2">Female</span>
+                    </label>
                 </div>
             </div>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero text-center">
-            <div class="container">
-                <h1 class="display-5 fw-bold mb-3">Create and manage profiles with ease.</h1>
-                <p class="lead text-secondary mb-4">A simple and organized way to build beautiful personal profile pages.
-                </p>
-                <a href="{{ url('/profile') }}" class="btn btn-primary btn-lg px-4">Get Started</a>
-            </div>
-        </section>
-
-        <section class="pb-5">
-            <div class="container">
-                <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
-                    <div class="col">
-                        <article class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <h2 class="h5">Quick Setup</h2>
-                                <p class="text-secondary mb-3">Start creating your profile in minutes with a clean and guided flow.</p>
-                                <a href="#" class="btn btn-sm btn-outline-light">Learn More</a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col">
-                        <article class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <h2 class="h5">Responsive Design</h2>
-                                <p class="text-secondary mb-3">Enjoy a seamless experience across desktop, tablet, and mobile devices.</p>
-                                <a href="#" class="btn btn-sm btn-outline-light">Learn More</a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col">
-                        <article class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <h2 class="h5">Simple Management</h2>
-                                <p class="text-secondary mb-3">Update details anytime with an interface focused on clarity and speed.</p>
-                                <a href="#" class="btn btn-sm btn-outline-light">Learn More</a>
-                            </div>
-                        </article>
-                    </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Hobbies (at least 5)</label>
+                <div class="mt-2 space-y-2">
+                    @for($i = 1; $i <= 5; $i++) <input type="text" name="hobbies[]" placeholder="Hobby {{ $i }}"
+                        required
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        @endfor
                 </div>
             </div>
-        </section>
 
-        <section class="pb-5">
-            <div class="container">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4 p-lg-5">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-6">
-                                <h2 class="h3 mb-3">Built for students and professionals</h2>
-                                <p class="text-secondary mb-0">Whether you are showcasing your academic profile or building a polished online identity, this app helps you stay organized with a modern, distraction-free experience.</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="d-flex flex-column gap-3">
-                                    <div class="d-flex gap-3 align-items-start">
-                                        <span class="feature-icon">1</span>
-                                        <div>
-                                            <h3 class="h6 mb-1">Clean Interface</h3>
-                                            <p class="text-secondary mb-0">Minimal layout focused on what matters most.</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-3 align-items-start">
-                                        <span class="feature-icon">2</span>
-                                        <div>
-                                            <h3 class="h6 mb-1">Easy Editing</h3>
-                                            <p class="text-secondary mb-0">Make updates quickly without unnecessary steps.</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex gap-3 align-items-start">
-                                        <span class="feature-icon">3</span>
-                                        <div>
-                                            <h3 class="h6 mb-1">Modern Look</h3>
-                                            <p class="text-secondary mb-0">Professional presentation with Bootstrap 5 styling.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <label for="biography" class="block text-sm font-medium text-gray-700">Short Biography</label>
+                <textarea id="biography" name="biography" rows="4" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
             </div>
-        </section>
-    </main>
 
-    <footer class="border-top py-4 text-center text-secondary bg-body">
-        <div class="container">
-            <small>&copy; {{ date('Y') }} Profile Generator. All rights reserved.</small>
+            <button type="submit"
+                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add
+                Profile</button>
+        </form>
+
+        @if(session('profiles'))
+        <div class="mt-8">
+            <h2 class="text-xl font-bold mb-4">Saved Profiles</h2>
+            @foreach(session('profiles') as $profile)
+            <div class="bg-gray-50 p-4 rounded-md mb-4">
+                <h3 class="font-semibold">{{ $profile['name'] }}</h3>
+                <p><strong>Age:</strong> {{ $profile['age'] }}</p>
+                <p><strong>Program:</strong> {{ $profile['program'] }}</p>
+                <p><strong>Email:</strong> {{ $profile['email'] }}</p>
+                <p><strong>Gender:</strong> {{ ucfirst($profile['gender']) }}</p>
+                <p><strong>Hobbies:</strong> {{ implode(', ', $profile['hobbies']) }}</p>
+                <p><strong>Biography:</strong> {{ $profile['biography'] }}</p>
+            </div>
+            @endforeach
+
+            <form action="/clear" method="POST" class="mt-4">
+                @csrf
+                <button type="submit"
+                    class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Clear
+                    All Profiles</button>
+            </form>
         </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+        @endif
+    </div>
+</x-layout>
